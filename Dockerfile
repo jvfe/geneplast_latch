@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt-get install -y software-properties-common &&\
     add-apt-repository "deb http://cloud.r-project.org/bin/linux/debian buster-cran40/" &&\
     apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev libssl-dev wget
-RUN apt-get install -y curl
+RUN apt-get install -y curl gawk
 
 # Install some packages (replace with your own)
 RUN R -e "install.packages('BiocManager')"

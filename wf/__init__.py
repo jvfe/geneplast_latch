@@ -65,9 +65,7 @@ def get_cog_mappings(cog_mappings_file: str) -> LatchFile:
 
     _awk_cmd = [
         "awk",
-        """
-        'NR > 1 { print gensub(/(^[0-9]+)(\.)(.*)/, "\\3\t\\1", "g", $1)"\t"$4}'
-        """,
+        'NR > 1 { print gensub(/(^[0-9]+)(\.)(.*)/, "\\3\t\\1", "g", $1)"\t"$4}',
     ]
 
     with open(cog_mappings_path, "w") as results:

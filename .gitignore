@@ -180,3 +180,4 @@ cython_debug/
 cache.txt
 .ssh_key
 .ssh_key.pub
+.vscode
