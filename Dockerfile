@@ -8,6 +8,7 @@ RUN apt-get install -y software-properties-common &&\
 
 # Install some packages (replace with your own)
 RUN R -e "install.packages('BiocManager')"
+RUN R -e "install.packages('remotes')"
 # Install CRAN dependencies
 RUN R -e "remotes::install_github('r-lib/rlang')" &&\
     R -e "install.packages(c('dplyr', 'vroom', 'tibble', 'purrr'))"
