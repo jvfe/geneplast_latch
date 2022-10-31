@@ -40,10 +40,12 @@ def get_cog_mappings(cog_mappings_file: str) -> LatchFile:
     """
     Get the mappings for COGs to STRINGdb IDs and process it into a readable file
     """
+    db_file = "COG_mappings_unprocessed.txt.gz"
+    db_filepath = Path(db_file).resolve()
     cog_mappings_name = "cog_mappings.tsv"
     cog_mappings_path = Path(cog_mappings_name).resolve()
 
-    download_cmd = ["curl", "-L", cog_mappings_file, "-o", str(cog_mappings_path)]
+    download_cmd = ["curl", "-L", cog_mappings_file, "-o", str(db_filepath)]
 
     message(
         "info",
@@ -56,7 +58,7 @@ def get_cog_mappings(cog_mappings_file: str) -> LatchFile:
 
     message("info", {"title": "Processing COG mappings file"})
 
-    _cat_mappings = ["zcat", str(cog_mappings_path)]
+    _cat_mappings = ["zcat", str(db_filepath)]
 
     file_contents = subprocess.Popen(
         _cat_mappings,
