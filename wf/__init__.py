@@ -126,7 +126,7 @@ def run_geneplast(
             },
         )
 
-    return LatchFile(str(output_filepath), f"latch:///GenePlast/{output_filepath}")
+    return LatchFile(str(output_filepath), f"latch:///GenePlast/{output_file}")
 
 
 @workflow(metadata)
