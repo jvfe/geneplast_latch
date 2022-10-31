@@ -58,21 +58,12 @@ def get_cog_mappings(cog_mappings_file: str) -> LatchFile:
 
     message("info", {"title": "Processing COG mappings file"})
 
-    _cat_mappings = ["zcat", str(db_filepath)]
-
-    file_contents = subprocess.Popen(
-        _cat_mappings,
-        stdout=subprocess.PIPE,
-    )
-
-    _awk_cmd = [
-        "awk",
-        'NR > 1 { print gensub(/(^[0-9]+)(\.)(.*)/, "\\3\t\\1", "g", $1)"\t"$4}',
+    _process_cmd = [
+        "bash",
+        "process_mappings.sh"
     ]
 
-    with open(cog_mappings_path, "w") as results:
-
-        subprocess.call(_awk_cmd, stdin=file_contents.stdout, stdout=results)
+    subprocess.run(_process_cmd)
 
     if cog_mappings_path.exists() == False:
         message(
@@ -149,16 +140,14 @@ def geneplast(
     eukaryote_tree: LatchFile,
     cog_mappings_file: str,
 ) -> LatchFile:
-    """Evolutionary rooting and plasticity analysis of orthologous groups
+    """Evolutionary rooting of orthologous groups
 
     GenePlast
     ----
 
     Geneplast[^1] is designed for evolutionary and plasticity analysis
     based on orthologous groups distribution in a given species tree.
-    It uses Shannon information theory and orthologs abundance to
-    estimate the Evolutionary Plasticity Index. Additionally, it
-    implements the Bridge algorithm to determine the evolutionary
+    It implements the Bridge algorithm to determine the evolutionary
     root of a given gene based on its orthologs distribution.
 
     Read more about it

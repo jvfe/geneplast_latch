@@ -19,6 +19,7 @@ RUN R -e "BiocManager::install('geneplast', force = TRUE)"
 # You can add other R files here by copying them over.
 # You can then run them within your tasks.
 COPY R /root/
+COPY bin /root/
 
 # STOP HERE:
 # The following lines are needed to ensure your build environement works
