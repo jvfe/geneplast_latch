@@ -58,10 +58,7 @@ def get_cog_mappings(cog_mappings_file: str) -> LatchFile:
 
     message("info", {"title": "Processing COG mappings file"})
 
-    _process_cmd = [
-        "bash",
-        "process_mappings.sh"
-    ]
+    _process_cmd = ["bash", "process_mappings.sh"]
 
     subprocess.run(_process_cmd)
 
@@ -84,7 +81,7 @@ def run_geneplast(
     string_species_list: LatchFile,
     eukaryote_tree: LatchFile,
     cog_mappings: LatchFile,
-    species: Species = Species.Homo_sapiens,
+    species: Species,
 ) -> LatchFile:
     """
     Run the GenePlast analysis pipeline, outputting a tsv file with roots for the COGs provided
@@ -104,6 +101,7 @@ def run_geneplast(
         string_species_list.local_path,
         eukaryote_tree.local_path,
         cog_mappings.local_path,
+        str(output_filepath),
     ]
 
     message(
@@ -134,11 +132,11 @@ def run_geneplast(
 @workflow(metadata)
 def geneplast(
     sample: Sample,
-    species: Species,
     clade_names: LatchFile,
     string_species_list: LatchFile,
     eukaryote_tree: LatchFile,
     cog_mappings_file: str,
+    species: Species = Species.Homo_sapiens,
 ) -> LatchFile:
     """Evolutionary rooting of orthologous groups
 

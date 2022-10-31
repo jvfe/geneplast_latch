@@ -22,6 +22,8 @@ eukaryote_tree <- args[6]
 
 cog_data <- args[7]
 
+result_file <- args[8]
+
 # Read in auxiliary data files ----
 
 lca_names <- vroom(clade_names)
@@ -68,4 +70,4 @@ groot.get(ogr, what = "results") %>%
   select(cog_id, root = Root) %>%
   left_join(lca_names) %>%
   left_join(cogs_of_interest) %>%
-  vroom_write(file = paste0(sample_name, "_roots.tsv"))
+  vroom_write(file = result_file)
