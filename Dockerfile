@@ -7,12 +7,16 @@ RUN apt-get install -y software-properties-common &&\
     apt-get install -y r-base r-base-dev libxml2-dev libcurl4-openssl-dev libssl-dev wget
 
 # Install some packages (replace with your own)
-RUN R -e "install.packages('RCurl')"
 RUN R -e "install.packages('BiocManager')"
-RUN R -e "BiocManager::install('S4Vectors', force = TRUE)"
+# Install CRAN dependencies
+RUN R -e "remotes::install_github('r-lib/rlang')" &&\
+    R -e "install.packages(c('dplyr', 'vroom', 'tibble', 'purrr'))"
+# Install geneplast
+RUN R -e "BiocManager::install('geneplast', force = TRUE)"
 
 # You can add other R files here by copying them over.
 # You can then run them within your tasks.
+COPY R /root/
 
 # STOP HERE:
 # The following lines are needed to ensure your build environement works
