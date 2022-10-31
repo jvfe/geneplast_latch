@@ -12,30 +12,27 @@ metadata = LatchMetadata(
 )
 
 metadata.parameters = {
-    "sample_name": LatchParameter(
+    "sample": LatchParameter(
         display_name="Sample name",
-        section_title="Expression Results",
-        description="Text to identify the sample by. Will define output directory.",
+        section_title="Protein Lists",
+        description="Dataset from which to estimate evolutionary roots.",
     ),
-    "expression_data": LatchParameter(
-        display_name="Expression data",
-        description="CSV file with a normalized expression matrix."
-        "First column should correspond to gene identifiers while every other column should be a sample"
-        "and its respective expression values",
+    "species": LatchParameter(
+        display_name="Reference species for the rooting analysis",
     ),
-    "sample_annotation": LatchParameter(
-        display_name="Sample annotation",
-        description="CSV file specifying sample names (1st column - Named 'SampleName')"
-        "and the group they belong to (2nd column - Named 'Class'), which will be used to make contrasts",
+    "cog_mappings_file": LatchParameter(
+        display_name="URL to a STRINGdb COG mappings file",
+        section_title="Auxiliary data files",
+        hidden=True,
     ),
-    "pathways": LatchParameter(
-        display_name="GMT file to perform over-representation analysis",
-        section_title="Functional annotation data",
-        description="A GMT file with pathways/terms and genes which will be used to perform ORA analysis.",
+    "clade_names": LatchParameter(
+        display_name="TSV file with clade names",
+        hidden=True,
     ),
-    "interaction_table": LatchParameter(
-        display_name="CSV file of interactions between genes",
-        description="CSV file with interaction data."
-        "In one column a gene identifier and in the other, a gene it's linked to.",
+    "string_species_list": LatchParameter(
+        display_name="List of species names and identifiers", hidden=True
+    ),
+    "eukaryote_tree": LatchParameter(
+        display_name="Tree of Eukaryotes in Newick format", hidden=True
     ),
 }
