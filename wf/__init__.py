@@ -2,13 +2,14 @@ import subprocess
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
+from typing import Optional
 
 from dataclasses_json import dataclass_json
 from latch import medium_task, message, small_task, workflow
 from latch.resources.launch_plan import LaunchPlan
 from latch.types import LatchDir, LatchFile
 
-from .docs import metadata
+from .docs import geneplast_docs
 
 
 class Species(Enum):
@@ -82,12 +83,15 @@ def run_geneplast(
     eukaryote_tree: LatchFile,
     cog_mappings: LatchFile,
     species: Species,
+    species_manual: Optional[str],
 ) -> LatchFile:
     """
     Run the GenePlast analysis pipeline, outputting a tsv file with roots for the COGs provided
     """
     sample_name = sample.sample_name
-    species_id = get_species_id(species.value)
+    species_id = (
+        species_manual if species_manual is not None else get_species_id(species.value)
+    )
     output_file = f"{sample_name}_roots.tsv"
     output_filepath = Path(output_file).resolve()
 
@@ -129,13 +133,15 @@ def run_geneplast(
     return LatchFile(str(output_filepath), f"latch:///GenePlast/{output_file}")
 
 
-@workflow(metadata)
+@workflow(geneplast_docs)
 def geneplast(
     sample: Sample,
     clade_names: LatchFile,
     string_species_list: LatchFile,
     eukaryote_tree: LatchFile,
     cog_mappings_file: str,
+    species_fork: str,
+    species_manual: Optional[str] = None,
     species: Species = Species.Homo_sapiens,
 ) -> LatchFile:
     """Evolutionary rooting of orthologous groups
@@ -160,6 +166,7 @@ def geneplast(
     return run_geneplast(
         sample=sample,
         species=species,
+        species_manual=species_manual,
         clade_names=clade_names,
         string_species_list=string_species_list,
         eukaryote_tree=eukaryote_tree,
