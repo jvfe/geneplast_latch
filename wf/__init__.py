@@ -21,8 +21,8 @@ class Species(Enum):
 @dataclass_json
 @dataclass
 class Sample:
-    sample_name: str
-    cog_list: LatchFile
+    name: str
+    cogs: LatchFile
 
 
 def get_species_id(species_name):
@@ -88,7 +88,7 @@ def run_geneplast(
     """
     Run the GenePlast analysis pipeline, outputting a tsv file with roots for the COGs provided
     """
-    sample_name = sample.sample_name
+    sample_name = sample.name
     species_id = (
         species_manual if species_manual is not None else get_species_id(species.value)
     )
@@ -100,7 +100,7 @@ def run_geneplast(
         "/root/geneplast_eukaryote.R",
         sample_name,
         species_id,
-        sample.cog_list.local_path,
+        sample.cogs.local_path,
         clade_names.local_path,
         string_species_list.local_path,
         eukaryote_tree.local_path,
@@ -179,8 +179,8 @@ LaunchPlan(
     "Default protein data",
     {
         "sample": Sample(
-            sample_name="default_proteins",
-            cog_list=LatchFile("s3://latch-public/test-data/4318/cog_list.txt"),
+            name="default_proteins",
+            cogs=LatchFile("s3://latch-public/test-data/4318/cog_list.txt"),
         ),
         "species": Species.Homo_sapiens,
         "clade_names": LatchFile(

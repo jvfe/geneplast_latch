@@ -1,13 +1,21 @@
-from latch.types.metadata import (Fork, ForkBranch, LatchAuthor, LatchMetadata,
-                                  LatchParameter, Params, Section, Text, Title)
+from latch.types.metadata import (
+    Fork,
+    ForkBranch,
+    LatchAuthor,
+    LatchMetadata,
+    LatchParameter,
+    LatchRule,
+    Params,
+    Section,
+    Text,
+    Title,
+)
 
-# TODO: Add some input validation
 # TODO: Ask about Title
 
 PARAMS = {
     "sample": LatchParameter(
-        display_name="Sample name",
-        section_title="Protein Lists",
+        display_name="Sample",
         description="Dataset from which to estimate evolutionary roots.",
         batch_table_column=True,
     ),
@@ -15,22 +23,37 @@ PARAMS = {
         display_name="Reference species for the rooting analysis",
     ),
     "species_manual": LatchParameter(
-        display_name="NCBI taxonomy ID for the reference species to use for rooting"
+        display_name="NCBI taxonomy ID for the reference species to use for rooting",
     ),
     "species_fork": LatchParameter(),
     "cog_mappings_file": LatchParameter(
         display_name="URL to a STRINGdb COG mappings file",
         hidden=True,
+        rules=[
+            LatchRule(regex="^(https|http)", message="Please only provide valid URLs")
+        ],
     ),
     "clade_names": LatchParameter(
-        display_name="TSV file with clade names",
+        display_name="File with clade names",
         hidden=True,
+        detail="(.tsv, .csv)",
+        rules=[LatchRule(regex="(.tsv|.csv)$", message="Must be a CSV or TSV file")],
     ),
     "string_species_list": LatchParameter(
-        display_name="List of species names and identifiers", hidden=True
+        display_name="List of species names and identifiers",
+        hidden=True,
+        detail="(.txt, .tsv, .csv)",
+        rules=[
+            LatchRule(regex="(.txt|.tsv|.csv)$", message="Must be a CSV or TSV file")
+        ],
     ),
     "eukaryote_tree": LatchParameter(
-        display_name="Tree of Eukaryotes in Newick format", hidden=True
+        display_name="Tree of Eukaryotes in Newick format",
+        hidden=True,
+        detail="(.nwk)",
+        rules=[
+            LatchRule(regex=".nwk$", message="File has to be in Newick format (.nwk)")
+        ],
     ),
 }
 
