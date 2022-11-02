@@ -7,8 +7,8 @@ from latch.types.metadata import (
     LatchRule,
     Params,
     Section,
+    Spoiler,
     Text,
-    Title,
 )
 
 # TODO: Ask about Title
@@ -83,13 +83,16 @@ FLOW = [
             ),
         ),
     ),
-    Section(
+    Spoiler(
         "Auxiliary data files",
         Text(
             "Auxiliary data files from STRINGdb and other sources used as input for GenePlast."
         ),
         Params(
-            "cog_mappings_file", "clade_names", "string_species_list", "eukaryote_tree"
+            "cog_mappings_file",
+            "clade_names",
+            "string_species_list",
+            "eukaryote_tree",
         ),
     ),
 ]
