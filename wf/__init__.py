@@ -36,7 +36,7 @@ def get_species_id(species_name):
     return species_map[species_name]
 
 
-@small_task
+@small_task(retries=2)
 def get_cog_mappings(cog_mappings_file: str) -> LatchFile:
     """
     Get the mappings for COGs to STRINGdb IDs and process it into a readable file
